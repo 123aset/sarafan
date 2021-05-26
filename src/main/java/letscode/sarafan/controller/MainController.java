@@ -24,13 +24,16 @@ public class MainController {
     public MainController(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }
+
     @GetMapping
     public String main(Model model, @AuthenticationPrincipal User user) {
         Map<Object, Object> data = new HashMap<>();
+        if (user != null) {
         data.put("profile", user);
         data.put("messages", messageRepository.findAll());
+        }
         model.addAttribute("frontendData", data);
-        model.addAttribute("isDevMode","dev".equals(profile));
+        model.addAttribute("isDevMode", "dev".equals(profile));
         return "index";
     }
 }
