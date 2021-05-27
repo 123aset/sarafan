@@ -7,13 +7,15 @@
     "start": "webpack serve"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "@mdi/js": "^5.9.55",
     "@stomp/stompjs": "^6.1.0",
     "file-loader": "^6.2.0",
     "sockjs-client": "^1.5.1",
     "vue": "^2.6.12",
     "vue-resource": "^1.5.2",
-    "vuetify": "^2.5.1"
+    "vuetify": "^2.5.1",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
