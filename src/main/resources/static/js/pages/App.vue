@@ -21,13 +21,17 @@
 </template>
 
 <script>
-    import {addHandler} from 'util/ws'
-    import {mapMutations, mapState} from 'vuex'
-
+    import { mapState, mapMutations } from 'vuex'
+    import { addHandler } from 'util/ws'
     export default {
         computed: mapState(['profile']),
         methods: {
-            ...mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
+            ...mapMutations([
+                'addMessageMutation',
+                'updateMessageMutation',
+                'removeMessageMutation',
+                'addCommentMutation'
+            ]),
             showMessages() {
                 this.$router.push('/')
             },
@@ -51,15 +55,22 @@
                         default:
                             console.error(`Looks like the event type if unknown "${data.eventType}"`)
                     }
+                } else if (data.objectType === 'COMMENT') {
+                    switch (data.eventType) {
+                        case 'CREATE':
+                            this.addCommentMutation(data.body)
+                            break
+                        default:
+                            console.error(`Looks like the event type if unknown "${data.eventType}"`)
+                    }
                 } else {
                     console.error(`Looks like the object type if unknown "${data.objectType}"`)
                 }
             })
         },
-
         beforeMount() {
             if (!this.profile) {
-                this.$router.replace("/auth")
+                this.$router.replace('/auth')
             }
         }
     }

@@ -40,6 +40,8 @@ public class MainController {
             data.put("profile", user);
             String messages = writer.writeValueAsString(messageRepository.findAll());
             model.addAttribute("messages", messages);
+        }else {
+            model.addAttribute("messages","[]");
         }
         model.addAttribute("frontendData", data);
         model.addAttribute("isDevMode", "dev".equals(profile));
