@@ -8,6 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         messages,
+        profile,
         ...frontendData
     },
     getters: {
@@ -57,19 +58,20 @@ export default new Vuex.Store({
                 ]
             }
         },
-        addMessagePageMutation(state,messages){
+        addMessagePageMutation(state, messages) {
             const targetMessages = state.messages
                 .concat(messages)
                 .reduce((res, val) => {
                     res[val.id] = val
                     return res
-                },{})
+                }, {})
+
             state.messages = Object.values(targetMessages)
         },
-        updateTotalPagesMutation(state,totalPages){
+        updateTotalPagesMutation(state, totalPages) {
             state.totalPages = totalPages
         },
-        updateCurrentPageMutation(state, currentPage){
+        updateCurrentPageMutation(state, currentPage) {
             state.currentPage = currentPage
         }
     },
@@ -102,7 +104,7 @@ export default new Vuex.Store({
             const data = await response.json()
             commit('addCommentMutation', data)
         },
-        async loadPageAction({commit,state}){
+        async loadPageAction({commit, state}) {
             const response = await messagesApi.page(state.currentPage + 1)
             const data = await response.json()
 

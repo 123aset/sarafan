@@ -10,7 +10,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 @Component
 public class WsSender {
@@ -22,21 +21,23 @@ public class WsSender {
         this.mapper = mapper;
     }
 
-    public <T> BiConsumer<EventType,T> getSender(ObjectType objectType, Class view) {
+    public <T> BiConsumer<EventType, T> getSender(ObjectType objectType, Class view) {
         ObjectWriter writer = mapper
                 .setConfig(mapper.getSerializationConfig())
                 .writerWithView(view);
 
-        return (EventType eventType , T payload) -> {
+        return (EventType eventType, T payload) -> {
             String value = null;
+
             try {
                 value = writer.writeValueAsString(payload);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
+
             template.convertAndSend(
                     "/topic/activity",
-                    new WsEventDto(objectType,eventType,value)
+                    new WsEventDto(objectType, eventType, value)
             );
         };
     }
