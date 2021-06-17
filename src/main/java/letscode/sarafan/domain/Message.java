@@ -14,13 +14,13 @@ import java.util.List;
 
 @Entity
 @Table
-@ToString(of = {"id", "text"})
-@EqualsAndHashCode(of = {"id"})
 @Data
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
+//@ToString(of = {"id", "text"})
+//@EqualsAndHashCode(of = {"id"})
+//@JsonIdentityInfo(
+//        property = "id",
+//        generator = ObjectIdGenerators.PropertyGenerator.class
+//)
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

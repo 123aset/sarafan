@@ -4,15 +4,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import letscode.sarafan.domain.Message;
 import letscode.sarafan.domain.User;
 import letscode.sarafan.domain.Views;
-import letscode.sarafan.dto.EventType;
 import letscode.sarafan.dto.MessagePageDto;
-import letscode.sarafan.dto.MetaDto;
 import letscode.sarafan.service.MessageService;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,9 +14,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.regex.Matcher;
 
 @RestController
 @RequestMapping("message")
@@ -38,8 +28,11 @@ public class MessageController {
 
     @GetMapping
     @JsonView(Views.FullMessage.class)
-    public MessagePageDto list(@PageableDefault(size = MESSAGES_PER_PAGE, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        return messageService.findAll(pageable);
+    public MessagePageDto list(
+            @AuthenticationPrincipal User user,
+            @PageableDefault(size = MESSAGES_PER_PAGE, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return messageService.findForUser(pageable, user);
     }
 
     @GetMapping("{id}")
