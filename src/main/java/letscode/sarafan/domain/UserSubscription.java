@@ -3,6 +3,7 @@ package letscode.sarafan.domain;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.EmbeddedId;
@@ -12,6 +13,7 @@ import javax.persistence.MapsId;
 
 @Entity
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @ToString(of = "id")
 public class UserSubscription {
